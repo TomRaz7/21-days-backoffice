@@ -1,6 +1,8 @@
 import { FC } from "react";
-import { Box, Flex, Text, VStack } from '@chakra-ui/react'
-import { CalendarIcon } from '@chakra-ui/icons'
+import { Box, Flex, Text } from '@chakra-ui/react'
+import { Icon } from '@chakra-ui/icons'
+import { MdCalendarToday, MdBarChart, MdWork, MdPerson } from 'react-icons/md'
+import { IconType } from "react-icons";
 
 interface MenuCardProps{
     title: string,
@@ -9,7 +11,26 @@ interface MenuCardProps{
     onClick: Function
 }
 
+
+interface IconItem {
+    name: string,
+    iconType: IconType
+}
+
 const MenuCard: FC<MenuCardProps> = ({title, icon, isActive, onClick}: MenuCardProps) =>{
+
+    const getCardIcon = (icon: string): IconType | undefined => {
+
+        const icons: IconItem[]  = [
+            {name: 'CalendarIcon', iconType: MdCalendarToday},
+            {name: 'Chart', iconType: MdBarChart},
+            {name: 'Workshop', iconType: MdWork},
+            {name: 'Profile', iconType: MdPerson},
+        ];
+
+        return icons.find(i => i.name === icon)?.iconType;
+    }
+
     return(
         <Flex
         alignItems='center'
@@ -31,7 +52,7 @@ const MenuCard: FC<MenuCardProps> = ({title, icon, isActive, onClick}: MenuCardP
             justifyContent='center'
             alignItems='center'
             >
-                <CalendarIcon color={isActive ? 'white' : 'teal.300'}/>
+                <Icon as={getCardIcon(icon)} color={isActive ? 'white' : 'teal.300'}/>
             </Box>
             <Text color={isActive ? 'gray.600' : 'gray.400'} ml={2}>{title}</Text>
         </Flex>

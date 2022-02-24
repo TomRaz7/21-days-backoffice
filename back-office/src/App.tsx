@@ -19,14 +19,19 @@ function App() {
     },
     {
         title: 'Dashboard',
-        icon: 'StarIcon',
+        icon: 'Chart',
         isActive: false
     },
     {
         title: 'Ateliers',
-        icon: 'ViewIcon',
+        icon: 'Workshop',
         isActive: false
     },
+    {
+      title: 'Profil',
+      icon: 'Profile',
+      isActive: false
+  },
 ]);
 
   const handleSelectedMenuItem = (title: string): void => {
