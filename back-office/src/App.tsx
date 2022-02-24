@@ -30,8 +30,14 @@ function App() {
 ]);
 
   const handleSelectedMenuItem = (title: string): void => {
+    let currentActiveIndex = menuItems.findIndex(e => e.isActive === true);
+    let newActiveIndex = menuItems.findIndex(e => e.title === title);
+    let copy = [...menuItems];
+    copy[currentActiveIndex].isActive = false;
+    copy[newActiveIndex].isActive = true;
+    
+    setMenuItems(copy);
     setSelectedMenuItem(title);
-    menuItems.find(e => e.title === title);
   }
 
   return (
