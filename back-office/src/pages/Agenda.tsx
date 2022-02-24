@@ -8,14 +8,12 @@ const Agenda: FC = () => {
     return(
         <Box 
         display='flex'
-        flex={6} 
-        borderWidth='1px' 
-        boxShadow='base' 
+        flex={6}  
         overflow='hidden'
         backgroundColor='green.100'
         >
             <ContentContainer>
-                <ContentHeader />
+                <ContentHeader page='Agenda' />
                 <Center flex={8}>
                     <Text>Mon agenda</Text>
                 </Center>

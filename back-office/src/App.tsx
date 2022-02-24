@@ -52,8 +52,6 @@ function App() {
         <Menu handleMenuItem={handleSelectedMenuItem} menuItems={menuItems}/>
         <ContentRouter selectedScreen={selectedMenuItem}/>
       </AppContainer>
-    
-
     </ChakraProvider>
   );
 }

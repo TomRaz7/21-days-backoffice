@@ -28,7 +28,6 @@ const ContentRouter: FC<ContentRouterProps> = ({selectedScreen}: ContentRouterPr
         return null;
     } 
 
-
     return(
         <>
             {renderComponentDynamically(selectedScreen)}

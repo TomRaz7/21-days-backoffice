@@ -8,14 +8,12 @@ const Dashboard: FC = () => {
     return(
         <Box 
         display='flex'
-        flex={6} 
-        borderWidth='1px' 
-        boxShadow='base' 
+        flex={6}  
         overflow='hidden'
         backgroundColor='green.100'
         >
           <ContentContainer>
-                <ContentHeader />
+                <ContentHeader page='Dashboard' />
                 <Center flex={8}>
                     <Text>Mon Dashboard</Text>
                 </Center>

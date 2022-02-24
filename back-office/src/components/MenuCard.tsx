@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { Box, Flex, Text } from '@chakra-ui/react'
-import { Icon } from '@chakra-ui/icons'
-import { MdCalendarToday, MdBarChart, MdWork, MdPerson } from 'react-icons/md'
+import { Box, Flex, Text } from '@chakra-ui/react';
+import { Icon } from '@chakra-ui/icons';
+import { MdCalendarToday, MdBarChart, MdWork, MdPerson } from 'react-icons/md';
 import { IconType } from "react-icons";
 
 interface MenuCardProps{
