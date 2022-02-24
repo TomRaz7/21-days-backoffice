@@ -1,8 +1,9 @@
 import { FC } from 'react';
-import { Box, Center, Text, Flex } from '@chakra-ui/react'
+import { Box, Center } from '@chakra-ui/react'
 
 import ContentContainer from '../components/ContentContainer';
 import ContentHeader from '../components/ContentHeader';
+import WorkshopsCalendar from '../components/WorkshopsCalendar';
 
 const Agenda: FC = () => {
     return(
@@ -15,7 +16,7 @@ const Agenda: FC = () => {
             <ContentContainer>
                 <ContentHeader page='Agenda' />
                 <Center flex={8}>
-                    <Text>Mon agenda</Text>
+                    <WorkshopsCalendar />
                 </Center>
             </ContentContainer>
         </Box>
