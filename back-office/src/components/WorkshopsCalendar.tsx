@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Box, Center, Flex, Text } from '@chakra-ui/react'
+import { Box, Center, Flex, Text, Grid as ChakraGrid, GridItem } from '@chakra-ui/react'
 
 import {
     Calendar,
@@ -12,8 +12,8 @@ import {
 
 
   const appointments = [
-    { start: new Date(2021, 3, 21, 12, 0, 0), end: new Date(2021, 3, 21, 14, 30, 0), title: 'Ap. 1' },
-    { start: new Date(2021, 3, 25, 10, 0, 0), end: new Date(2021, 3, 25, 17, 15, 0), title: 'Ap. 2' },
+    { start: new Date(2022, 2, 21, 12, 0, 0), end: new Date(2022, 2, 21, 14, 30, 0), title: 'Ap. 1' },
+    { start: new Date(2022, 2, 23, 12, 0, 0), end: new Date(2022, 2, 23, 14, 30, 0), title: 'Ap. 2' },
   ];
 
 const WorkshopsCalendar: FC = () => {
@@ -28,29 +28,35 @@ const WorkshopsCalendar: FC = () => {
     return(
     <Flex
     direction='column'
-    backgroundColor='red.100'
     h='100%'
     w='100%'
+    overflowY='auto'
     >
     <Calendar
       timeStart="8:00"
       timeEnd="20:00"
     >
       {/*<TodayButton />*/}
-      <CalendarHeader style={{display: 'flex', flex:'1', alignItems:'center'}}>
+      <CalendarHeader style={{display: 'flex', flex:'1', marginLeft:80,  alignItems:'center', justifyContent:'space-around'}}>
           {({date}) => <HeaderCell isActive={isToday(date)} date={date}/>}
       </CalendarHeader>
-      <CalendarBody style={{ display: 'flex', flex:'5', backgroundColor: 'yellow'}}>
-        <CalendarGrid length = '30 min' />
-        {appointments.map(appointment => (
-          <Appointment
-            start={appointment.start}
-            end={appointment.end}
-          >
-              <AppointmentCard title={appointment.title} />
-          </Appointment>
-        ))}
-      </CalendarBody>
+      <Flex direction="row" flexGrow={2}>
+            <Box flexShrink={0} w="20">
+              <TimeLegend />
+            </Box>
+            <Box h="100%" flexGrow={1} as={CalendarBody} backgroundColor='white'>
+              <Box
+                as={CalendarGrid}
+                length="30 min"
+                borderTopWidth="1px"
+                borderLeftWidth="1px"
+                borderColor="gray.300"
+              />
+              {appointments.map(appointment => (
+                <Appointment {...appointment} />
+              ))}
+            </Box>
+          </Flex>
     </Calendar>
     </Flex>
     );
@@ -70,7 +76,7 @@ const HeaderCell: FC<HeaderCellProps> = ({isActive, date}: HeaderCellProps) => {
         p={4}
         borderRadius='lg'
         m={2}
-        w='150px'
+        w='100px'
         >
             <Text 
             color={isActive ? 'white' : 'gray.600'}
@@ -100,7 +106,7 @@ const AppointmentCard: FC<AppointmentCardProps> = ({title}: AppointmentCardProps
         p={4}
         borderRadius='lg'
         m={2}
-        w='150px'
+        backgroundColor='yellow.100'
         >
             <Text>
                 {title}
@@ -108,6 +114,31 @@ const AppointmentCard: FC<AppointmentCardProps> = ({title}: AppointmentCardProps
         </Center>
     );
 }
+
+function TimeLegend() {
+    const { viewTimes } = useCalendar();
+    const numHours = (viewTimes.end - viewTimes.start) / (60 * 60 * 1000);
+    const startHour = viewTimes.start / (60 * 60 * 1000);
+    return (
+      <ChakraGrid width="100%" height="100%" templateRows={`repeat(${numHours}, 1fr)`}>
+        {Array.apply(null, Array(numHours)).map((_, index) => (
+          <GridItem
+            rowStart={index * 1 + 1}
+            display="flex"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            fontSize="0.8rem"
+            color="gray.400"
+            p="1"
+            borderTopWidth="1px"
+            borderColor="gray.300"
+          >
+            {index + startHour}:00
+          </GridItem>
+        ))}
+      </ChakraGrid>
+    );
+  }
 
 function TodayButton() {
     const { setDate } = useCalendar();

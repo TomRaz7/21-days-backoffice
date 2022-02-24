@@ -11,7 +11,7 @@ const Agenda: FC = () => {
         display='flex'
         flex={6}  
         overflow='hidden'
-        backgroundColor='green.100'
+        backgroundColor='gray.100'
         >
             <ContentContainer>
                 <ContentHeader page='Agenda' />
