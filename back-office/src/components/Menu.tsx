@@ -20,7 +20,7 @@ const Menu: FC<MenuProps> = ({handleMenuItem, menuItems}: MenuProps) => {
         backgroundColor='gray.100'
         >
             <Box p={2}>
-                <Text color='gray.600' fontSize='l' textAlign='center'> 21 days BO</Text>
+                <Text color='gray.600' fontSize='l' textAlign='center' mb={7}> 21 days BO</Text>
                 <Divider mt={2} borderColor='gray.300'/>
             </Box>
             <VStack mt={2}>

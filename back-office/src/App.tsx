@@ -5,6 +5,7 @@ import AppContainer from './components/AppContainer';
 import IMenuCard from './interfaces/IMenuCard';
 import Menu from './components/Menu';
 import useWindowDimensions from "./hooks/use-window-dimensions";
+import ContentRouter from './components/ContentRouter';
 
 function App() {
 
@@ -49,18 +50,7 @@ function App() {
     <ChakraProvider>
       <AppContainer>
         <Menu handleMenuItem={handleSelectedMenuItem} menuItems={menuItems}/>
-        <Box 
-        display='flex'
-        flex={6} 
-        borderWidth='1px' 
-        boxShadow='base' 
-        overflow='hidden'
-        backgroundColor='green.100'
-        >
-          <Center>
-            <Text>{selectedMenuItem}</Text>
-          </Center>
-        </Box>
+        <ContentRouter selectedScreen={selectedMenuItem}/>
       </AppContainer>
     
 
