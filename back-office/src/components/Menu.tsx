@@ -17,7 +17,7 @@ const Menu: FC<MenuProps> = ({handleMenuItem, menuItems}: MenuProps) => {
         direction='column'
         p={2}
         pt={8}
-        backgroundColor='gray.100'
+        backgroundColor='gray.50'
         >
             <Box p={2}>
                 <Text color='gray.600' fontSize='l' textAlign='center' mb={7}> 21 days BO</Text>

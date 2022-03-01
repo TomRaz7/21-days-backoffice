@@ -3,6 +3,7 @@ import { Box, Center, Text } from '@chakra-ui/react'
 
 import ContentContainer from '../components/ContentContainer';
 import ContentHeader from '../components/ContentHeader';
+import WorkshopsList from '../components/WorkshopsList';
 
 const Workshop: FC = () => {
     return(
@@ -10,13 +11,10 @@ const Workshop: FC = () => {
         display='flex'
         flex={6}  
         overflow='hidden'
-        backgroundColor='green.100'
         >
           <ContentContainer>
                 <ContentHeader page='Ateliers' />
-                <Center flex={8}>
-                    <Text>Mes ateliers</Text>
-                </Center>
+                <WorkshopsList />
             </ContentContainer>
         </Box>
     );

@@ -7,6 +7,7 @@ const ContentContainer: FC = (props: any) => {
         direction='column'
         backgroundColor='grey.100'
         width='100%'
+        align='center'
         >
             {props.children}
         </Flex>

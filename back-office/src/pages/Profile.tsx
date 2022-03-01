@@ -14,7 +14,7 @@ const Profile: FC = () => {
         >
           <ContentContainer>
                 <ContentHeader page='Profil' />
-                <Center flex={8}>
+                <Center flex={10}>
                     <Text>Mon profil</Text>
                 </Center>
             </ContentContainer>

@@ -11,13 +11,11 @@ const Agenda: FC = () => {
         display='flex'
         flex={6}  
         overflow='hidden'
-        backgroundColor='gray.100'
+        backgroundColor='gray.50'
         >
             <ContentContainer>
                 <ContentHeader page='Agenda' />
-                <Center flex={8}>
-                    <WorkshopsCalendar />
-                </Center>
+                <WorkshopsCalendar />
             </ContentContainer>
         </Box>
     );

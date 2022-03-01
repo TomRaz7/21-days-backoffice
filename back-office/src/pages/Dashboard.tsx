@@ -14,7 +14,7 @@ const Dashboard: FC = () => {
         >
           <ContentContainer>
                 <ContentHeader page='Dashboard' />
-                <Center flex={8}>
+                <Center flex={10}>
                     <Text>Mon Dashboard</Text>
                 </Center>
             </ContentContainer>

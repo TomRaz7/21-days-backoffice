@@ -34,7 +34,7 @@ const MenuCard: FC<MenuCardProps> = ({title, icon, isActive, onClick}: MenuCardP
     return(
         <Flex
         alignItems='center'
-        backgroundColor={isActive ? 'white' : 'gray.100'}
+        backgroundColor={isActive ? 'white' : 'gray.50'}
         borderRadius={isActive ? 'lg' : 'none'}
         boxShadow={isActive ? 'base' : 'none'}
         direction='row'

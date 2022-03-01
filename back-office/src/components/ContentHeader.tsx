@@ -17,7 +17,7 @@ const ContentHeader: FC<ContentHeaderProps> = ({page}: ContentHeaderProps) => {
         <Flex
         direction='row'
         w='100%'
-        backgroundColor='gray.100'
+        backgroundColor='gray.50'
         flex={1}
         p={5}
         align='center'

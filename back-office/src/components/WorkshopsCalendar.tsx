@@ -40,7 +40,7 @@ const WorkshopsCalendar: FC = () => {
       <CalendarHeader style={{display: 'flex', flex:'1', marginLeft:80,  alignItems:'center', justifyContent:'space-around'}}>
           {({date}) => <HeaderCell isActive={isToday(date)} date={date}/>}
       </CalendarHeader>
-      <Flex direction="row" flexGrow={2}>
+      <Flex direction="row" flexGrow={2} overflowY='auto'>
             <Box flexShrink={0} w="20">
               <TimeLegend />
             </Box>

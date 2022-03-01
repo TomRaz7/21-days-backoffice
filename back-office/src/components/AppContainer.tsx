@@ -13,7 +13,7 @@ const AppContainer: FC = (props: any) => {
         flex={1}
         h={height}
         w='100%'
-        backgroundColor='red.100'
+        backgroundColor='gray.50'
         >
             {props.children}
         </Flex>
