@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Icon } from '@chakra-ui/icons';
 import { MdPerson } from 'react-icons/md';
-import { Flex, Text } from '@chakra-ui/react'
+import {Button, Flex, Text } from '@chakra-ui/react'
 
 interface ContentHeaderProps {
     page: string,
@@ -43,21 +43,17 @@ interface SignoutButtonProps {
 
 const SignoutButton: FC<SignoutButtonProps> = ({onClick}: SignoutButtonProps) => {
     return(
-        <Flex
-        direction='row'
-        align='center'
-        justify='center'
+        <Button
+        leftIcon={<MdPerson/>}
+        color='teal.300'
         onClick={() => {
             onClick();
         }}
-        boxShadow='base'
-        borderRadius='lg'
-        backgroundColor='teal.300'
-        p={4}
+        colorScheme='teal'
+        variant='outline'
         >
-            <Icon as={MdPerson} color='white' h={6} w={6}/>
-            <Text color='white' fontWeight='semibold' ml={1}>Déconnexion</Text>
-        </Flex>
+            Déconnexion
+        </Button>
     );
 }
 

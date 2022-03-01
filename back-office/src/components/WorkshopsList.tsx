@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Flex, Table, Th, Tr, Text, Thead, Tbody, Badge, Link} from '@chakra-ui/react'
+import { Button, Flex, Table, Th, Tr, Text, Thead, Tbody, Badge, Link} from '@chakra-ui/react'
 
 const workshops = [
     {
@@ -216,7 +216,14 @@ const WorkshopsList: FC = () => {
         direction='column'
         overflowY='auto'
         >
-            <Text color='gray.600'>Vos ateliers</Text>
+            <Flex
+            direction='row'
+            justify='space-between'
+            align='center'
+            >
+                <Text color='gray.600'>Vos ateliers</Text>
+                <Button backgroundColor='teal.300' color='white'>Créer un atelier</Button>
+            </Flex>
             <Table variant='simple' mt={4}>
                 <Thead>
                     <Tr>
@@ -261,7 +268,7 @@ const TableRow: FC<TableRowProps> = ({key,title,adress,city,price,status}: Table
         switch(status){
             case 'active':
                 return(
-                    <Badge colorScheme='green' p={2} borderRadius='md' >Active</Badge>
+                    <Badge colorScheme='green' p={2} borderRadius='md' >Actif</Badge>
                 );
             case 'disabled':
                 return(
