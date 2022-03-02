@@ -1,209 +1,20 @@
 import { FC } from 'react';
-import { Button, Flex, Table, Th, Tr, Text, Thead, Tbody, Badge, Link} from '@chakra-ui/react'
+import { Button, Flex, Table, Th, Tr, Text, Thead, Tbody, Badge, Link, Select} from '@chakra-ui/react'
 
-const workshops = [
-    {
-        id:'1',
-        title:'atelier 1',
-        adress:'6 cour des Lilas',
-        city:'Paris',
-        price:25,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'active'
-    },
-    {
-        id:'2',
-        title:'atelier 2',
-        adress:'73 rue des bas Rogers',
-        city:'Suresnes',
-        price:30,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'pending'
-    },
-    {
-        id:'3',
-        title:'atelier 3',
-        adress:'10 allée du ru à lin',
-        city:'Marines',
-        price:35,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'disabled'
-    },
-    {
-        id:'1',
-        title:'atelier 1',
-        adress:'6 cour des Lilas',
-        city:'Paris',
-        price:25,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'active'
-    },
-    {
-        id:'2',
-        title:'atelier 2',
-        adress:'73 rue des bas Rogers',
-        city:'Suresnes',
-        price:30,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'pending'
-    },
-    {
-        id:'3',
-        title:'atelier 3',
-        adress:'10 allée du ru à lin',
-        city:'Marines',
-        price:35,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'disabled'
-    },
-    {
-        id:'1',
-        title:'atelier 1',
-        adress:'6 cour des Lilas',
-        city:'Paris',
-        price:25,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'active'
-    },
-    {
-        id:'2',
-        title:'atelier 2',
-        adress:'73 rue des bas Rogers',
-        city:'Suresnes',
-        price:30,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'pending'
-    },
-    {
-        id:'3',
-        title:'atelier 3',
-        adress:'10 allée du ru à lin',
-        city:'Marines',
-        price:35,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'disabled'
-    },
-    {
-        id:'1',
-        title:'atelier 1',
-        adress:'6 cour des Lilas',
-        city:'Paris',
-        price:25,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'active'
-    },
-    {
-        id:'2',
-        title:'atelier 2',
-        adress:'73 rue des bas Rogers',
-        city:'Suresnes',
-        price:30,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'pending'
-    },
-    {
-        id:'3',
-        title:'atelier 3',
-        adress:'10 allée du ru à lin',
-        city:'Marines',
-        price:35,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'disabled'
-    },
-    {
-        id:'1',
-        title:'atelier 1',
-        adress:'6 cour des Lilas',
-        city:'Paris',
-        price:25,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'active'
-    },
-    {
-        id:'2',
-        title:'atelier 2',
-        adress:'73 rue des bas Rogers',
-        city:'Suresnes',
-        price:30,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'pending'
-    },
-    {
-        id:'3',
-        title:'atelier 3',
-        adress:'10 allée du ru à lin',
-        city:'Marines',
-        price:35,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'disabled'
-    },
-    {
-        id:'1',
-        title:'atelier 1',
-        adress:'6 cour des Lilas',
-        city:'Paris',
-        price:25,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'active'
-    },
-    {
-        id:'2',
-        title:'atelier 2',
-        adress:'73 rue des bas Rogers',
-        city:'Suresnes',
-        price:30,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'pending'
-    },
-    {
-        id:'3',
-        title:'atelier 3',
-        adress:'10 allée du ru à lin',
-        city:'Marines',
-        price:35,
-        duration:7200,
-        description:'sample workshop',
-        nbMinParticipants:5,
-        status:'disabled'
-    },
-]
+import IWorkshop from '../interfaces/IWorkshop';
 
+const statusOptions = ['active', 'disabled', 'pending'];
 
-const WorkshopsList: FC = () => {
+interface WorkshopsListProps {
+    workshops: IWorkshop[]
+}
+
+const WorkshopsList: FC<WorkshopsListProps> = ({workshops}: WorkshopsListProps) => {
+
+    const handleStatusFilter = () => {
+        console.log('filter');
+    }
+
     return(
         <Flex
         flex={10}
@@ -221,7 +32,10 @@ const WorkshopsList: FC = () => {
             justify='space-between'
             align='center'
             >
-                <Text color='gray.600'>Vos ateliers</Text>
+                <Flex direction='row' align='center'>
+                    <Text flex={2} color='gray.600'>Vos ateliers</Text>
+                    <DropDownFilter options={statusOptions} placeholder='Status' onSelect={handleStatusFilter}/>
+                </Flex>
                 <Button backgroundColor='teal.300' color='white'>Créer un atelier</Button>
             </Flex>
             <Table variant='simple' mt={4}>
@@ -250,6 +64,29 @@ const WorkshopsList: FC = () => {
                 </Tbody>
             </Table>
         </Flex>
+    );
+}
+
+interface DropDownFilterProps {
+    options: string[],
+    onSelect: Function,
+    placeholder: string
+}
+
+const DropDownFilter: FC<DropDownFilterProps> = ({options, onSelect, placeholder}: DropDownFilterProps) => {
+    return(
+        <Select 
+        placeholder={placeholder}
+        bg='teal.300'
+        color='white'
+        flex={2}
+        >
+            {options.map((e, index) => {
+                return(
+                    <option value={index}>{e}</option>
+                )
+            })}
+        </Select>
     );
 }
 
