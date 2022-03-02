@@ -1,4 +1,4 @@
-import { Component, FC, ReactElement, ReactInstance } from 'react';
+import { FC, ReactElement } from 'react';
 
 import Agenda from '../pages/Agenda';
 import Dashboard from '../pages/Dashboard';

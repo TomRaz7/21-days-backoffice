@@ -1,7 +1,8 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Button, Flex, Table, Th, Tr, Text, Thead, Tbody, Badge, Link, Select} from '@chakra-ui/react'
 
 import IWorkshop from '../interfaces/IWorkshop';
+import WorkshopModalForm from './forms/WorkshopModalForm';
 
 const statusOptions = ['active', 'disabled', 'pending'];
 
@@ -11,8 +12,14 @@ interface WorkshopsListProps {
 
 const WorkshopsList: FC<WorkshopsListProps> = ({workshops}: WorkshopsListProps) => {
 
+    const [workshopFormVisible, setWorkshopFormVisible] = useState<boolean>(false);
+
     const handleStatusFilter = () => {
         console.log('filter');
+    }
+
+    const handleCloseModal = ():void => {
+        setWorkshopFormVisible(false);
     }
 
     return(
@@ -36,7 +43,11 @@ const WorkshopsList: FC<WorkshopsListProps> = ({workshops}: WorkshopsListProps) 
                     <Text flex={2} color='gray.600'>Vos ateliers</Text>
                     <DropDownFilter options={statusOptions} placeholder='Status' onSelect={handleStatusFilter}/>
                 </Flex>
-                <Button backgroundColor='teal.300' color='white'>Créer un atelier</Button>
+                <Button 
+                backgroundColor='teal.300' 
+                color='white'
+                onClick={() => {setWorkshopFormVisible(true)}}
+                >Créer un atelier</Button>
             </Flex>
             <Table variant='simple' mt={4}>
                 <Thead>
@@ -63,6 +74,7 @@ const WorkshopsList: FC<WorkshopsListProps> = ({workshops}: WorkshopsListProps) 
                     })}
                 </Tbody>
             </Table>
+            <WorkshopModalForm isVisible={workshopFormVisible} handleClose={handleCloseModal}/>
         </Flex>
     );
 }
