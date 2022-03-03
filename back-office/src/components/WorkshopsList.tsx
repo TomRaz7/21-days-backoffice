@@ -119,7 +119,7 @@ const TableRow: FC<TableRowProps> = ({key,title,adress,city,price,status}: Table
                 return(
                     <Badge colorScheme='green' p={2} borderRadius='md' >Actif</Badge>
                 );
-            case 'disabled':
+            case 'disable':
                 return(
                     <Badge colorScheme='red' p={2} borderRadius='md'>Désactivé</Badge>
                 );

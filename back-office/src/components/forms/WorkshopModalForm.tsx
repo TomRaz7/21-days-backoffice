@@ -13,6 +13,7 @@ import {
   } from '@chakra-ui/react'
 
 import FormInput from './FormInput';
+import WorkshopAdressInput from './WorkshopAdressInput';
 
 interface WorkshopModalFormProps {
     isVisible: boolean,
@@ -30,16 +31,18 @@ const WorkshopModalForm: FC<WorkshopModalFormProps> = ({isVisible, handleClose}:
     <Modal onClose={handleClose} size='full' isOpen={isVisible}>
         <ModalOverlay />
         <ModalContent>
-            <ModalHeader>Créer un nouvel atelier</ModalHeader>
+            <ModalHeader color='gray.600'>Créer un nouvel atelier</ModalHeader>
             <ModalCloseButton />
             <ModalBody backgroundColor='white'>
-            <FormInput placeholder="Nom de l'atelier" associatedField='title' type='text'/>
-            <FormInput placeholder="Prix de l'atelier" associatedField='price' type='numeric'/>
+            <FormInput placeholder="Nom *" associatedField='title' type='text'/>
+            <FormInput placeholder="Prix *" associatedField='price' type='numeric'/>
+            <WorkshopAdressInput placeholder="Adresse *"/>
+            <FormInput placeholder="Minimum de participants " associatedField='nbMinParticipants' type='numeric'/>
             </ModalBody>
             <ModalFooter>
             <HStack spacing={2}>
                 <Button backgroundColor="teal.300" color="white" onClick={handleClose}>Valider</Button>
-                <Button onClick={handleClose}>Annuler</Button>
+                <Button onClick={handleClose} color='gray.600'>Annuler</Button>
             </HStack>
             </ModalFooter>
         </ModalContent>
