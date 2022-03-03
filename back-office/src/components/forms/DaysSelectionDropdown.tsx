@@ -9,13 +9,22 @@ import {
     MenuItemOption,
     MenuGroup,
     MenuOptionGroup,
-    MenuDivider,
     HStack,
-    Text
+    Text,
+    NumberInputField,
+    NumberInput,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper
   } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 
 const weekDays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+
+interface selectedDay {
+    day: string,
+    nbSlot: number
+}
 
 interface DaysSelectionDropdownProps {
     handleSelectedDays: Function
@@ -25,7 +34,7 @@ const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDa
 
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
-    const handleCkeck = (day: string): void => {
+    const handleCkeck = (day: string, nbSlot: number): void => {
         if(selectedDays.includes(day)){
             setSelectedDays(selectedDays.filter((e) => e !== day));
         } else {
@@ -43,6 +52,7 @@ const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDa
                 Disponibilités
             </MenuButton>
             <MenuList>
+                <Text color='gray.600' p={2} ml={2} mr={2} fontWeight='semibold'>Renseignez la disponibilité et le nombre de créneaux par jour</Text>
                 {weekDays.map((e, index) => {
                     return(
                         <CheckBoxRow key={index} associatedDay={e} handleCheck={handleCkeck}/>
@@ -56,15 +66,33 @@ const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDa
 interface CheckBoxRowProps {
     key: number,
     associatedDay: string,
-    handleCheck(day: string): void
+    handleCheck(day: string, nbSlot: number): void
 }
 
 const CheckBoxRow: FC<CheckBoxRowProps> = ({key, associatedDay, handleCheck}: CheckBoxRowProps) => {
+
+    const [isChecked, setIsCheked] = useState<boolean>(false);
+    const [nbSlot, setNbSlot] = useState<number>(0);
+
+    const handleNbSlot = (value:any):void => {
+        setNbSlot(value);
+    }
+
     return(
         <HStack p={2} justify='space-between' ml={2} mr={2} key={key}>
             <Text fontWeight='normal'>{associatedDay}</Text>
+            {isChecked && 
+            <NumberInput min={0} maxW='100px' mr='2rem' value={nbSlot} onChange={handleNbSlot}>
+                <NumberInputField />
+                <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+                </NumberInputStepper>
+            </NumberInput>
+            }
             <Checkbox colorScheme='teal' onChange={() => {
-                handleCheck(associatedDay);
+                setIsCheked(!isChecked);
+                handleCheck(associatedDay, nbSlot);
             }}/>
         </HStack>
     );

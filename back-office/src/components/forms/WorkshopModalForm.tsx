@@ -9,7 +9,8 @@ import {
     ModalBody,
     ModalCloseButton,
     Text,
-    HStack
+    HStack,
+    VStack
   } from '@chakra-ui/react'
 
 import FormInput from './FormInput';
@@ -35,11 +36,15 @@ const WorkshopModalForm: FC<WorkshopModalFormProps> = ({isVisible, handleClose}:
             <ModalHeader color='gray.600'>Créer un nouvel atelier</ModalHeader>
             <ModalCloseButton />
             <ModalBody backgroundColor='white'>
-                <FormInput placeholder="Nom *" associatedField='title' type='text'/>
-                <FormInput placeholder="Prix *" associatedField='price' type='numeric'/>
-                <WorkshopAdressInput placeholder="Adresse *"/>
-                <WorkshopTimeSlotInput placeholder='Crénaux et disponibilités *'/>
-            <FormInput placeholder="Minimum de participants " associatedField='nbMinParticipants' type='numeric'/>
+                <HStack spacing={4}>
+                    <VStack spacing={4}>
+                        <FormInput placeholder="Nom *" associatedField='title' type='text'/>
+                        <FormInput placeholder="Prix *" associatedField='price' type='numeric'/>
+                        <WorkshopAdressInput placeholder="Adresse *"/>
+                        <FormInput placeholder="Minimum de participants " associatedField='nbMinParticipants' type='numeric'/>
+                    </VStack>
+                    <WorkshopTimeSlotInput placeholder='Crénaux et disponibilités *'/>
+                </HStack>
             </ModalBody>
             <ModalFooter>
             <HStack spacing={2}>

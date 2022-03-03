@@ -44,7 +44,6 @@ const FormInput: FC<FormInputProps> = ({placeholder, associatedField, type}: For
         color='gray.600'
         fontWeight='bold'
         w='400px'
-        mb={2}
         >
             <HStack spacing={2}>
                 <Text color='teal.300' fontWeight='bold'>{placeholder}</Text>
@@ -62,7 +61,7 @@ const FormInput: FC<FormInputProps> = ({placeholder, associatedField, type}: For
                 {getIcon(associatedField)}
                 </Center>
             </HStack>
-            {type === 'numeric' ? <NumberInput focusBorderColor='teal.300' size='md' mt={4}>{associatedField === 'nbMinParticipants' ? 
+            {type === 'numeric' ? <NumberInput min={0} focusBorderColor='teal.300' size='md' mt={4}>{associatedField === 'nbMinParticipants' ? 
                 <NumberInputField placeholder='Nombre minimum de participants' />
             : <NumberInputField />}</NumberInput> : <Input focusBorderColor='teal.300' size='md' mt={4} type={type}/>}
         </Flex>
