@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { Center, Flex, HStack, Input, NumberInput, NumberInputField, Text, VStack } from '@chakra-ui/react'
+import { FC, useState } from 'react';
+import { Button, Center, Flex, HStack, Input, NumberInput, NumberInputField, Text, VStack } from '@chakra-ui/react'
 import { Icon } from '@chakra-ui/icons';
 import {  MdCalendarToday } from 'react-icons/md';
 
@@ -10,6 +10,8 @@ interface WorkshopTimeSlotInputProps {
 }
 
 const WorkshopTimeSlotInput: FC<WorkshopTimeSlotInputProps> = ({placeholder}: WorkshopTimeSlotInputProps) => {
+
+    const [durationUnit, setDurationUnit] = useState<string>('h')
 
     const handleSelectedDays = (days: string[]): void => {
         console.log('jours sélectionnées depuis le parent');
@@ -46,6 +48,32 @@ const WorkshopTimeSlotInput: FC<WorkshopTimeSlotInputProps> = ({placeholder}: Wo
                 <Icon as={MdCalendarToday} color="white" h={4} w={4} /> 
                 </Center>
             </HStack>
+            <VStack mb={4} align='flex-start'>
+                <Flex direction='row' justify='space-between' align='center' w='100%'>
+                    <Text color='gray.400' fontWeight='normal'>Durée de l'atelier</Text>
+                    <Flex direction='row' justify='space-around' align='center' >
+                        <Button size='sm' mr={2} backgroundColor='white' color={durationUnit === 'min' ? 'gray.400' : 'teal.300'} onClick={() => {setDurationUnit('h')}}>h</Button>
+                        <Button size='sm' backgroundColor='white' color={durationUnit === 'min' ? 'teal.300' : 'gray.400'} onClick={() => {setDurationUnit('min')}}>min</Button>
+                    </Flex>
+                </Flex>
+                {durationUnit === 'min' ? 
+                    <NumberInput w='100%' max={59} onChange={(val) => {
+                        console.log(val)
+                    }}>
+                        <NumberInputField placeholder='minute(s)' />
+                    </NumberInput> : 
+                    <HStack>
+                         <NumberInput>
+                            <NumberInputField placeholder='heures(s)'/>
+                         </NumberInput>
+                        <Text color='gray.400' fontWeight='light'>h</Text>
+                        <NumberInput max={59}>
+                            <NumberInputField placeholder='minute(s)'/>
+                        </NumberInput>
+                        <Text color='gray.400' fontWeight='light'>min</Text>
+                    </HStack>
+                }
+            </VStack>
             <DaysSelectionDropdown handleSelectedDays={handleSelectedDays} />
         </Flex>
     );
