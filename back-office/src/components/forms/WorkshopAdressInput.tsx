@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Box, Center, Flex, HStack, Input, NumberInput, NumberInputField, Text, VStack } from '@chakra-ui/react'
+import { Center, Flex, HStack, Input, NumberInput, NumberInputField, Text, VStack } from '@chakra-ui/react'
 import { Icon } from '@chakra-ui/icons';
 import {  MdHome } from 'react-icons/md';
 

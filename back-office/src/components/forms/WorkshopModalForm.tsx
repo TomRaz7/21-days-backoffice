@@ -14,6 +14,7 @@ import {
 
 import FormInput from './FormInput';
 import WorkshopAdressInput from './WorkshopAdressInput';
+import WorkshopTimeSlotInput from './WorkshopTimeSlotInput';
 
 interface WorkshopModalFormProps {
     isVisible: boolean,
@@ -34,9 +35,10 @@ const WorkshopModalForm: FC<WorkshopModalFormProps> = ({isVisible, handleClose}:
             <ModalHeader color='gray.600'>Créer un nouvel atelier</ModalHeader>
             <ModalCloseButton />
             <ModalBody backgroundColor='white'>
-            <FormInput placeholder="Nom *" associatedField='title' type='text'/>
-            <FormInput placeholder="Prix *" associatedField='price' type='numeric'/>
-            <WorkshopAdressInput placeholder="Adresse *"/>
+                <FormInput placeholder="Nom *" associatedField='title' type='text'/>
+                <FormInput placeholder="Prix *" associatedField='price' type='numeric'/>
+                <WorkshopAdressInput placeholder="Adresse *"/>
+                <WorkshopTimeSlotInput placeholder='Crénaux et disponibilités *'/>
             <FormInput placeholder="Minimum de participants " associatedField='nbMinParticipants' type='numeric'/>
             </ModalBody>
             <ModalFooter>

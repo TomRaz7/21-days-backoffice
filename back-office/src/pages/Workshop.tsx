@@ -14,7 +14,6 @@ const Workshop: FC = () => {
         fetch('http://localhost:2000/workshops/findAll')
         .then((response) => response.json())
         .then((responseJson) => {
-            console.log(responseJson);
             setWorkshops(responseJson);
         })
     }, [])
