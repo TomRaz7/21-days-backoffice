@@ -32,7 +32,6 @@ interface DaysSelectionDropdownProps {
 
 const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDays}: DaysSelectionDropdownProps) => {
 
-    const [selectedDays, setSelectedDays] = useState<string[]>([]);
     const [workshopSlots, setWorkshopSlots] = useState<IWorkshopSlot[]>([]);
 
     const handleCheckSlots = (day: string, nbSlot: number, from:string): void => {
