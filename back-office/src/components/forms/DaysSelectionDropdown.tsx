@@ -21,9 +21,9 @@ import { ChevronDownIcon } from '@chakra-ui/icons'
 
 const weekDays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 
-interface selectedDay {
+interface IWorkshopSlot {
     day: string,
-    nbSlot: number
+    nbSlot: number,
 }
 
 interface DaysSelectionDropdownProps {
@@ -33,18 +33,24 @@ interface DaysSelectionDropdownProps {
 const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDays}: DaysSelectionDropdownProps) => {
 
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
+    const [workshopSlots, setWorkshopSlots] = useState<IWorkshopSlot[]>([]);
 
-    const handleCkeck = (day: string, nbSlot: number): void => {
-        if(selectedDays.includes(day)){
-            setSelectedDays(selectedDays.filter((e) => e !== day));
+    const handleCheckSlots = (day: string, nbSlot: number, from:string): void => {
+        let found = workshopSlots.find(w => w.day === day); //on regarde si le jour est déjà présent dans le tableau
+        if(found && found.nbSlot === nbSlot && from === 'box'){ //case décocher un vire l'élément
+            setWorkshopSlots(workshopSlots.filter((w) => w.day !== day));
+        } else if (found && found.nbSlot !== nbSlot && from === 'slot') { //on met à jour le nb de slot pour ce jour
+            let workshopSlotsCopy = workshopSlots.filter((w) => w.day !== day);
+            workshopSlotsCopy.push({day, nbSlot});
+            setWorkshopSlots(workshopSlotsCopy);
         } else {
-            setSelectedDays(selectedDays => [...selectedDays, day]);
+            setWorkshopSlots(workshopSlots => [...workshopSlots, {day, nbSlot}]); //on ajoute un nouvel élément
         }
     }
 
     useEffect(() => {
-        handleSelectedDays(selectedDays);
-    }, [selectedDays])
+        handleSelectedDays(workshopSlots);
+    }, [workshopSlots])
 
     return(
         <Menu>
@@ -55,7 +61,7 @@ const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDa
                 <Text color='gray.600' p={2} ml={2} mr={2} fontWeight='semibold'>Renseignez la disponibilité et le nombre de créneaux par jour</Text>
                 {weekDays.map((e, index) => {
                     return(
-                        <CheckBoxRow key={index} associatedDay={e} handleCheck={handleCkeck}/>
+                        <CheckBoxRow key={index} associatedDay={e} handleCheck={handleCheckSlots}/>
                     )
                 })}
             </MenuList>
@@ -66,7 +72,7 @@ const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDa
 interface CheckBoxRowProps {
     key: number,
     associatedDay: string,
-    handleCheck(day: string, nbSlot: number): void
+    handleCheck(day: string, nbSlot: number, from: string): void
 }
 
 const CheckBoxRow: FC<CheckBoxRowProps> = ({key, associatedDay, handleCheck}: CheckBoxRowProps) => {
@@ -76,23 +82,27 @@ const CheckBoxRow: FC<CheckBoxRowProps> = ({key, associatedDay, handleCheck}: Ch
 
     const handleNbSlot = (value:any):void => {
         setNbSlot(value);
+        handleCheck(associatedDay, value, 'slot');
     }
 
     return(
         <HStack p={2} justify='space-between' ml={2} mr={2} key={key}>
-            <Text fontWeight='normal'>{associatedDay}</Text>
-            {isChecked && 
-            <NumberInput min={0} maxW='100px' mr='2rem' value={nbSlot} onChange={handleNbSlot}>
-                <NumberInputField />
-                <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-                </NumberInputStepper>
-            </NumberInput>
-            }
+            <HStack spacing={2}>
+                <Text fontWeight='normal'>{associatedDay}</Text>
+                {isChecked && 
+                <NumberInput min={0} maxW='100px' mr='2rem' value={nbSlot} onChange={handleNbSlot}>
+                    <NumberInputField />
+                    <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                    </NumberInputStepper>
+                </NumberInput>
+                }
+            </HStack>
             <Checkbox colorScheme='teal' onChange={() => {
                 setIsCheked(!isChecked);
-                handleCheck(associatedDay, nbSlot);
+                setNbSlot(0);
+                handleCheck(associatedDay, nbSlot, 'box');
             }}/>
         </HStack>
     );
