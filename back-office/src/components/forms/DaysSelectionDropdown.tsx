@@ -5,32 +5,23 @@ import {
     Menu,
     MenuButton,
     MenuList,
-    MenuItem,
-    MenuItemOption,
-    MenuGroup,
-    MenuOptionGroup,
     HStack,
     Text,
     NumberInputField,
     NumberInput,
-    NumberInputStepper,
-    NumberIncrementStepper,
-    NumberDecrementStepper
   } from '@chakra-ui/react'
 import { ChevronDownIcon } from '@chakra-ui/icons'
 
+import IWorkshopSlot from '../../interfaces/IWorkshopSlot';
+
 const weekDays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 
-interface IWorkshopSlot {
-    day: string,
-    nbSlot: number,
-}
-
 interface DaysSelectionDropdownProps {
-    handleSelectedDays: Function
+    handleSelectedDays: Function,
+    workshopDuration: number
 }
 
-const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDays}: DaysSelectionDropdownProps) => {
+const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDays, workshopDuration}: DaysSelectionDropdownProps) => {
 
     const [workshopSlots, setWorkshopSlots] = useState<IWorkshopSlot[]>([]);
 
@@ -58,9 +49,18 @@ const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDa
             </MenuButton>
             <MenuList>
                 <Text color='gray.600' p={2} ml={2} mr={2} fontWeight='semibold'>Renseignez la disponibilité et le nombre de créneaux par jour</Text>
+                {workshopDuration === 0 && 
+                <Text mt={1} textAlign='center' fontWeight={'normal'} color={'red.400'}>
+                    Veuillez tout d'abord renseigner la durée de l'atelier
+                </Text>}
                 {weekDays.map((e, index) => {
                     return(
-                        <CheckBoxRow key={index} associatedDay={e} handleCheck={handleCheckSlots}/>
+                        <CheckBoxRow 
+                        key={index} 
+                        associatedDay={e} 
+                        handleCheck={handleCheckSlots} 
+                        isDisabled={workshopDuration === 0}
+                        />
                     )
                 })}
             </MenuList>
@@ -71,10 +71,11 @@ const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDa
 interface CheckBoxRowProps {
     key: number,
     associatedDay: string,
-    handleCheck(day: string, nbSlot: number, from: string): void
+    handleCheck(day: string, nbSlot: number, from: string): void,
+    isDisabled: boolean
 }
 
-const CheckBoxRow: FC<CheckBoxRowProps> = ({key, associatedDay, handleCheck}: CheckBoxRowProps) => {
+const CheckBoxRow: FC<CheckBoxRowProps> = ({key, associatedDay, handleCheck, isDisabled}: CheckBoxRowProps) => {
 
     const [isChecked, setIsCheked] = useState<boolean>(false);
     const [nbSlot, setNbSlot] = useState<number>(0);
@@ -91,14 +92,10 @@ const CheckBoxRow: FC<CheckBoxRowProps> = ({key, associatedDay, handleCheck}: Ch
                 {isChecked && 
                 <NumberInput min={0} maxW='100px' mr='2rem' value={nbSlot} onChange={handleNbSlot}>
                     <NumberInputField />
-                    <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                    </NumberInputStepper>
                 </NumberInput>
                 }
             </HStack>
-            <Checkbox colorScheme='teal' onChange={() => {
+            <Checkbox isDisabled={isDisabled} colorScheme='teal' onChange={() => {
                 setIsCheked(!isChecked);
                 setNbSlot(0);
                 handleCheck(associatedDay, nbSlot, 'box');
