@@ -39,8 +39,6 @@ const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDa
     }
 
     useEffect(() => { //si la durée du workshop est nulle on reset le tableau d'array à vide
-        console.log('dans le selection picker')
-        console.log(workshopDuration);
         if(workshopDuration === 0){
             setWorkshopSlots([]);
         }

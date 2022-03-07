@@ -28,8 +28,6 @@ const WorkshopTimeSlotInput: FC<WorkshopTimeSlotInputProps> = ({placeholder}: Wo
     }, [minutes, hours]);
 
     useEffect(() => {
-        console.log('dans le workshop time slot input')
-        console.log(duration)
         if(duration === 0){
             setWorkshopSlots([]);
         }

@@ -23,12 +23,6 @@ interface WorkshopModalFormProps {
 }
 
 const WorkshopModalForm: FC<WorkshopModalFormProps> = ({isVisible, handleClose}: WorkshopModalFormProps) => {
-
-
-    const handleInput = () => {
-        console.log('test')
-    }
-
     return(
     <Modal onClose={handleClose} size='full' isOpen={isVisible}>
         <ModalOverlay />

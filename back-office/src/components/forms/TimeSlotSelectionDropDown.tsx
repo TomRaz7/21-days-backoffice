@@ -75,8 +75,25 @@ const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySl
         setStartingMin(val);
     }
 
-    const formatWorkshopSlotEndTime = (startHour: number , startMin: number, duration: number) => {
-        console.log('hjehkjehkejhkej');
+    const formatWorkshopSlotEndTime = (startHour: number , startMinute: number, duration: number) => {
+        let startH = startHour;
+        let startMin = startMinute;
+        let durationH = Math.trunc(duration / 3600);
+        let durationMin = (duration % 3600)/60;
+        let carriedNum = 0;
+
+        if(startMin + durationMin >= 60){
+            carriedNum += 1;
+        }
+        let resMin = (startMin + durationMin)%60;
+        let resHour = startH + durationH + carriedNum;
+        console.log((startMin + durationMin)%60);
+
+        if(resMin === 0){
+            return `${resHour}h00`;
+        }
+
+        return `${resHour}h${resMin}`;
     }
 
     return(
@@ -90,14 +107,14 @@ const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySl
                         <Text color={'gray.400'} fontWeight='normal'>Créneau n° {index + 1}</Text>
                         <HStack>
                             <Text color={'gray.600'} fontWeight='normal'>De</Text>
-                            <NumberInput min={8} max={20} placeholder='h' onChange={(val) => { //les max et min d l'input devront être récupérés via les heures d'ouverture
+                            <NumberInput min={8} max={20} onChange={(val) => { //les max et min d l'input devront être récupérés via les heures d'ouverture
                                     handeHourStartTime(parseInt(val))}}>
-                                <NumberInputField />
+                                <NumberInputField placeholder='8'/>
                             </NumberInput>
                             <Text color={'gray.600'} fontWeight='normal'>h</Text>
                             <MinutePickerList handleSelectedButton={handeMinStartTime}/>
                             <Text color={'gray.600'} fontWeight='normal'>à</Text>
-                            <Text color={'gray.600'} fontWeight='normal'>18h30</Text>
+                            <WorkshopEndingTime res={formatWorkshopSlotEndTime(startingHour, startingMin, workshopDuration)} />
                         </HStack>
                     </Box>
                 );
@@ -106,6 +123,17 @@ const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySl
             }
         </VStack>
     )
+}
+
+interface WorkshopEndingTimeProps {
+    res: string
+}
+
+const WorkshopEndingTime: FC<WorkshopEndingTimeProps> = ({res}: WorkshopEndingTimeProps) => {
+    return(
+        <Text color={'gray.600'} fontWeight='normal'>{res}
+        </Text>
+    );
 }
 
 export default TimeSlotSelectionDropDown;
