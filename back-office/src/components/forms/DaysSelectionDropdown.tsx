@@ -38,6 +38,14 @@ const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDa
         }
     }
 
+    useEffect(() => { //si la durée du workshop est nulle on reset le tableau d'array à vide
+        console.log('dans le selection picker')
+        console.log(workshopDuration);
+        if(workshopDuration === 0){
+            setWorkshopSlots([]);
+        }
+    }, [workshopDuration])
+
     useEffect(() => {
         handleSelectedDays(workshopSlots);
     }, [workshopSlots])
@@ -75,7 +83,9 @@ interface CheckBoxRowProps {
     isDisabled: boolean
 }
 
-const CheckBoxRow: FC<CheckBoxRowProps> = ({key, associatedDay, handleCheck, isDisabled}: CheckBoxRowProps) => {
+//Décocher et supprimer le contenu de l'input si la durée du workshop est à 0
+
+const CheckBoxRow: FC<CheckBoxRowProps> = ({key, associatedDay, handleCheck, isDisabled}: CheckBoxRowProps) => { 
 
     const [isChecked, setIsCheked] = useState<boolean>(false);
     const [nbSlot, setNbSlot] = useState<number>(0);

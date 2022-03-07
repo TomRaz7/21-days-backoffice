@@ -9,6 +9,7 @@ import {
   } from '@chakra-ui/react'
 
 import IWorkshopSlot from '../../interfaces/IWorkshopSlot';
+import MinutePickerList from './MinutePickerList';
 
 interface TimeSlotSelectionDropDownProps {
     workshopDuration: number,
@@ -44,8 +45,8 @@ interface ITimeSlot{
 const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySlotsProps) => {
 
     const [timeslots, setTimeslots] = useState<ITimeSlot[]>([]);
-    const [startingHour, setStartingHour] = useState<number>();
-    const [startingMin, setStartingMin] = useState<number>();
+    const [startingHour, setStartingHour] = useState<number>(8); // pas d'atelier possible avant 8 h AM
+    const [startingMin, setStartingMin] = useState<number>(0);
 
     useEffect(() => { //en fonction du nmbr de slot passés en prop on crée un array de timeslot pour mapper dessus ensuite
         setTimeslots([]);
@@ -55,21 +56,27 @@ const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySl
     }, [nbSlot]);
 
     useEffect(() => {
-        formatWorkshopSlotEndTime();
+        formatWorkshopSlotEndTime(startingHour, startingMin, workshopDuration);
     }, [startingHour, startingMin])
 
+    useEffect(() => { // on update l'heure de fin de créneaux dès qu'on détecte un changement dans la durée du workshop
+        formatWorkshopSlotEndTime(startingHour, startingMin, workshopDuration);
+    }, [workshopDuration])
+
     const handeHourStartTime = (val: number): void => {
-        setStartingHour(val);
+        if(isNaN(val)) {
+            setStartingHour(8);
+        } else {
+            setStartingHour(val);
+        }
     }
 
     const handeMinStartTime = (val: number): void => {
         setStartingMin(val);
     }
 
-    const formatWorkshopSlotEndTime = () => {
-        console.log(startingHour);
-        console.log(startingMin);
-        console.log(workshopDuration);
+    const formatWorkshopSlotEndTime = (startHour: number , startMin: number, duration: number) => {
+        console.log('hjehkjehkejhkej');
     }
 
     return(
@@ -88,10 +95,7 @@ const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySl
                                 <NumberInputField />
                             </NumberInput>
                             <Text color={'gray.600'} fontWeight='normal'>h</Text>
-                            <NumberInput max={59} placeholder='min' onChange={(val) => {
-                                    handeMinStartTime(parseInt(val))}}>
-                                <NumberInputField />
-                            </NumberInput>
+                            <MinutePickerList handleSelectedButton={handeMinStartTime}/>
                             <Text color={'gray.600'} fontWeight='normal'>à</Text>
                             <Text color={'gray.600'} fontWeight='normal'>18h30</Text>
                         </HStack>
