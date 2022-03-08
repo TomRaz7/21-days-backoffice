@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Button, Center, Flex, HStack, NumberInput, NumberInputField, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Center, Flex, HStack, NumberInput, NumberInputField, Text, VStack } from '@chakra-ui/react'
 import { Icon } from '@chakra-ui/icons';
 import {  MdCalendarToday } from 'react-icons/md';
 
@@ -76,8 +76,11 @@ const WorkshopTimeSlotInput: FC<WorkshopTimeSlotInputProps> = ({placeholder}: Wo
                 </Center>
             </HStack>
             <VStack mb={4} align='flex-start'>
-                <Flex direction='row' justify='space-between' align='center' w='100%'>
-                    <Text color='gray.400' fontWeight='normal'>Durée de l'atelier</Text>
+                <Flex direction='row' justify={'space-between'} align='center' w='100%'>
+                    <Text color='gray.400' fontWeight='normal'>Durée de l'atelier </Text>
+                    <Box mr={140} p={1.5} boxShadow='base' borderRadius={'md'} backgroundColor='teal.300'>
+                        <Text  color='white' fontWeight='normal'>{hours} h {minutes === 0 ? '00' : minutes} min</Text>
+                    </Box>
                 </Flex> 
                 <HStack>
                         <NumberInput onReset={() => {setDuration(0);}} onChange={(val) => {
