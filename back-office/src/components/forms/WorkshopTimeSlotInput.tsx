@@ -20,7 +20,7 @@ const WorkshopTimeSlotInput: FC<WorkshopTimeSlotInputProps> = ({placeholder}: Wo
     const [hours, setHours] = useState<number>(0);
 
     const handleSelectedDays = (days: IWorkshopSlot[]): void => {
-        setWorkshopSlots(days);
+        setWorkshopSlots(days.sort((a,b) => {return a.dayIndex - b.dayIndex})); //tri créneaux par ordre croissant
     }
 
     useEffect(() => {

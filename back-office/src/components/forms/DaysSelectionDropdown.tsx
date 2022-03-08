@@ -14,7 +14,15 @@ import { ChevronDownIcon } from '@chakra-ui/icons'
 
 import IWorkshopSlot from '../../interfaces/IWorkshopSlot';
 
-const weekDays = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+const weekDays = [
+    {day:'Lundi', index:0},
+    {day:'Mardi', index:1},
+    {day:'Mercredi', index:2},
+    {day:'Jeudi', index:3},
+    {day:'Vendredi', index:4},
+    {day:'Samedi', index:5},
+    {day:'Dimanche', index:6}
+];
 
 interface DaysSelectionDropdownProps {
     handleSelectedDays: Function,
@@ -25,16 +33,16 @@ const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDa
 
     const [workshopSlots, setWorkshopSlots] = useState<IWorkshopSlot[]>([]);
 
-    const handleCheckSlots = (day: string, nbSlot: number, from:string): void => {
+    const handleCheckSlots = (day: string, dayIndex:number, nbSlot: number, from:string): void => {
         let found = workshopSlots.find(w => w.day === day); //on regarde si le jour est déjà présent dans le tableau
         if(found && found.nbSlot === nbSlot && from === 'box'){ //case décocher un vire l'élément
             setWorkshopSlots(workshopSlots.filter((w) => w.day !== day));
         } else if (found && found.nbSlot !== nbSlot && from === 'slot') { //on met à jour le nb de slot pour ce jour
             let workshopSlotsCopy = workshopSlots.filter((w) => w.day !== day);
-            workshopSlotsCopy.push({day, nbSlot});
+            workshopSlotsCopy.push({day, dayIndex, nbSlot});
             setWorkshopSlots(workshopSlotsCopy);
         } else {
-            setWorkshopSlots(workshopSlots => [...workshopSlots, {day, nbSlot}]); //on ajoute un nouvel élément
+            setWorkshopSlots(workshopSlots => [...workshopSlots, {day, dayIndex, nbSlot}]); //on ajoute un nouvel élément si inexistant
         }
     }
 
@@ -63,7 +71,8 @@ const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDa
                     return(
                         <CheckBoxRow 
                         key={index} 
-                        associatedDay={e} 
+                        associatedDay={e.day} 
+                        dayIndex={e.index}
                         handleCheck={handleCheckSlots} 
                         isDisabled={workshopDuration === 0}
                         />
@@ -77,20 +86,20 @@ const DaysSelectionDropdown: FC<DaysSelectionDropdownProps> = ({handleSelectedDa
 interface CheckBoxRowProps {
     key: number,
     associatedDay: string,
-    handleCheck(day: string, nbSlot: number, from: string): void,
+    dayIndex: number,
+    handleCheck(day: string, dayIndex:number, nbSlot: number, from: string): void,
     isDisabled: boolean
 }
 
-//Décocher et supprimer le contenu de l'input si la durée du workshop est à 0
 
-const CheckBoxRow: FC<CheckBoxRowProps> = ({key, associatedDay, handleCheck, isDisabled}: CheckBoxRowProps) => { 
+const CheckBoxRow: FC<CheckBoxRowProps> = ({key, associatedDay, dayIndex, handleCheck, isDisabled}: CheckBoxRowProps) => { 
 
     const [isChecked, setIsCheked] = useState<boolean>(false);
     const [nbSlot, setNbSlot] = useState<number>(0);
 
     const handleNbSlot = (value:any):void => {
         setNbSlot(value);
-        handleCheck(associatedDay, value, 'slot');
+        handleCheck(associatedDay, dayIndex, value, 'slot');
     }
 
     useEffect(() => {
@@ -103,15 +112,20 @@ const CheckBoxRow: FC<CheckBoxRowProps> = ({key, associatedDay, handleCheck, isD
             <HStack spacing={2}>
                 <Text fontWeight='normal'>{associatedDay}</Text>
                 {(isChecked && !isDisabled) && 
-                <NumberInput min={0} maxW='100px' mr='2rem' value={nbSlot} onChange={handleNbSlot}>
+                <NumberInput min={1} maxW='100px' mr='2rem' value={nbSlot} onChange={handleNbSlot}>
                     <NumberInputField />
                 </NumberInput>
                 }
             </HStack>
             <Checkbox isDisabled={isDisabled} colorScheme='teal' isChecked={isChecked} onChange={() => {
                 setIsCheked(!isChecked);
-                setNbSlot(0);
-                handleCheck(associatedDay, nbSlot, 'box');
+                if(!isChecked){ //la checkbox vient d'être cochée
+                    setNbSlot(1);
+                    handleCheck(associatedDay, dayIndex, 1, 'slot');
+                } else {
+                    setNbSlot(0);
+                    handleCheck(associatedDay, dayIndex, nbSlot, 'box');
+                }                
             }}/>
         </HStack>
     );

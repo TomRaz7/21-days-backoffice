@@ -51,17 +51,17 @@ const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySl
 
     const handleRowInput = (index: number, inputStartTimeH: number, inputStartTimeMin: number): void => { 
         let startTime = inputStartTimeH*3600 + inputStartTimeMin*60;
-        if(timeslots.some((slot) => slot?.startsAt <= startTime + workshopDuration)){ //on sera tjrs vrai si par defaut on met start at 0
-            console.log('intersection entre deux créneaux')
-        } else {
-            let copy = timeslots;
-            copy[index].startsAt = startTime;
-            setTimeslots(copy);
-        }
+        // if(timeslots.some((slot) => slot?.startsAt <= startTime + workshopDuration)){ //on sera tjrs vrai si par defaut on met start at 0
+        //     console.log('intersection entre deux créneaux')
+        // } else {
+        //     let copy = timeslots;
+        //     copy[index].startsAt = startTime;
+        //     setTimeslots(copy);
+        // }
         
-        //check intersection puis persister les créneaux et passer le invalid si check faux
-        console.log('input n°'+index);
-        console.log(inputStartTimeH, inputStartTimeMin);
+        // //check intersection puis persister les créneaux et passer le invalid si check faux
+        // console.log('input n°'+index);
+        // console.log(inputStartTimeH, inputStartTimeMin);
     } 
 
     return(
