@@ -2,10 +2,6 @@ import { FC, useEffect, useState } from 'react';
 import {
     Text,
     VStack,
-    NumberInput, 
-    NumberInputField,
-    Box,
-    HStack,
   } from '@chakra-ui/react'
 
 import IWorkshopSlot from '../../interfaces/IWorkshopSlot';
@@ -37,7 +33,7 @@ interface DaySlotsProps {
 }
 
 interface ITimeSlot{
-    startsAt: Date["getHours"] | null
+    startsAt: Date["getHours"] | number 
     duration: number
 }
 
@@ -48,10 +44,25 @@ const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySl
     useEffect(() => { //en fonction du nmbr de slot passés en prop on crée un array de timeslot pour mapper dessus ensuite
         setTimeslots([]);
         for(let i = 0; i < nbSlot; i++){
-            setTimeslots(timeslots => [...timeslots, {duration: workshopDuration, startsAt: null,}]);
+            setTimeslots(timeslots => [...timeslots, {duration: workshopDuration, startsAt: 0,}]);
         }
     }, [nbSlot]);
 
+
+    const handleRowInput = (index: number, inputStartTimeH: number, inputStartTimeMin: number): void => { 
+        let startTime = inputStartTimeH*3600 + inputStartTimeMin*60;
+        if(timeslots.some((slot) => slot?.startsAt <= startTime + workshopDuration)){ //on sera tjrs vrai si par defaut on met start at 0
+            console.log('intersection entre deux créneaux')
+        } else {
+            let copy = timeslots;
+            copy[index].startsAt = startTime;
+            setTimeslots(copy);
+        }
+        
+        //check intersection puis persister les créneaux et passer le invalid si check faux
+        console.log('input n°'+index);
+        console.log(inputStartTimeH, inputStartTimeMin);
+    } 
 
     return(
         <VStack direction={'column'} align='left'>
@@ -60,24 +71,13 @@ const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySl
             <Text>Créneaux du {day}</Text>
             {!!timeslots.length && timeslots.map((e, index) => {
                 return(
-                    <TimeslotInputRow index={index} workshopDuration={workshopDuration}/>
+                    <TimeslotInputRow index={index} workshopDuration={workshopDuration} handleInput={handleRowInput}/>
                 );
             })}
             </> 
             }
         </VStack>
     )
-}
-
-interface WorkshopEndingTimeProps {
-    res: string
-}
-
-const WorkshopEndingTime: FC<WorkshopEndingTimeProps> = ({res}: WorkshopEndingTimeProps) => {
-    return(
-        <Text color={'gray.600'} fontWeight='normal'>{res}
-        </Text>
-    );
 }
 
 export default TimeSlotSelectionDropDown;

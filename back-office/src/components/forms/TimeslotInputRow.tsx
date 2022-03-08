@@ -9,15 +9,20 @@ import {
 
 import MinutePickerList from './MinutePickerList';
 
-interface TimeslotInputRowProps {
+interface TimeslotInputRowProps { // ajouter une prop de validité qui est trigger au check l'intersection de créneau
     index: number,
-    workshopDuration: number
+    workshopDuration: number,
+    handleInput(key: number, startH: number, startMin: number):void
 }
 
-const TimeslotInputRow: FC<TimeslotInputRowProps> = ({index, workshopDuration}: TimeslotInputRowProps) => {
+const TimeslotInputRow: FC<TimeslotInputRowProps> = ({index, workshopDuration, handleInput}: TimeslotInputRowProps) => {
 
     const [startingHour, setStartingHour] = useState<number>(8); // pas d'atelier possible avant 8 h AM
     const [startingMin, setStartingMin] = useState<number>(0);
+
+    useEffect(() => {
+        handleInput(index, startingHour, startingMin);
+    }, [startingHour, startingMin]);
 
     const formatWorkshopSlotEndTime = (startHour: number , startMinute: number, duration: number) => {
         let startH = startHour;

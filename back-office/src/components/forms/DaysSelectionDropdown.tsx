@@ -93,17 +93,22 @@ const CheckBoxRow: FC<CheckBoxRowProps> = ({key, associatedDay, handleCheck, isD
         handleCheck(associatedDay, value, 'slot');
     }
 
+    useEffect(() => {
+        setNbSlot(0)
+        setIsCheked(false);
+    },[isDisabled])
+
     return(
         <HStack p={2} justify='space-between' ml={2} mr={2} key={key}>
             <HStack spacing={2}>
                 <Text fontWeight='normal'>{associatedDay}</Text>
-                {isChecked && 
+                {(isChecked && !isDisabled) && 
                 <NumberInput min={0} maxW='100px' mr='2rem' value={nbSlot} onChange={handleNbSlot}>
                     <NumberInputField />
                 </NumberInput>
                 }
             </HStack>
-            <Checkbox isDisabled={isDisabled} colorScheme='teal' onChange={() => {
+            <Checkbox isDisabled={isDisabled} colorScheme='teal' isChecked={isChecked} onChange={() => {
                 setIsCheked(!isChecked);
                 setNbSlot(0);
                 handleCheck(associatedDay, nbSlot, 'box');
