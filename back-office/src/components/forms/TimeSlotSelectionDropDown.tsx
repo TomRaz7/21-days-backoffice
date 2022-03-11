@@ -1,10 +1,11 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState, useCallback } from 'react';
 import {
     Text,
     VStack,
   } from '@chakra-ui/react'
 
 import IWorkshopSlot from '../../interfaces/IWorkshopSlot';
+import ITimeSlot from '../../interfaces/ITimeSlot';
 import TimeslotInputRow from './TimeslotInputRow';
 
 interface TimeSlotSelectionDropDownProps {
@@ -32,11 +33,6 @@ interface DaySlotsProps {
     workshopDuration: number,
 }
 
-interface ITimeSlot{
-    startsAt: Date["getHours"] | number 
-    duration: number
-}
-
 const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySlotsProps) => {
 
     const [timeslots, setTimeslots] = useState<ITimeSlot[]>([]);
@@ -48,21 +44,34 @@ const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySl
         }
     }, [nbSlot]);
 
+    useEffect(() => { //si la durée du workshop est modifiée depuis le parent on map sur l'ensemble des timeslot pour MAJ le workshop duration
+        if(!!timeslots.length){
+            let copy =  timeslots.map(e => {return {...e, duration: workshopDuration}});
+            setTimeslots(copy);
+        }
+    }, [workshopDuration])
 
-    const handleRowInput = (index: number, inputStartTimeH: number, inputStartTimeMin: number): void => { 
+    const checkSlotIntersection = (inputStartTimeH: number, inputStartTimeMin: number): boolean => {
+        console.log(timeslots);
         let startTime = inputStartTimeH*3600 + inputStartTimeMin*60;
-        // if(timeslots.some((slot) => slot?.startsAt <= startTime + workshopDuration)){ //on sera tjrs vrai si par defaut on met start at 0
-        //     console.log('intersection entre deux créneaux')
-        // } else {
-        //     let copy = timeslots;
-        //     copy[index].startsAt = startTime;
-        //     setTimeslots(copy);
-        // }
-        
-        // //check intersection puis persister les créneaux et passer le invalid si check faux
-        // console.log('input n°'+index);
-        // console.log(inputStartTimeH, inputStartTimeMin);
-    } 
+        if(timeslots.some((slot) => slot?.startsAt <= startTime + workshopDuration)){
+            return true //intersection
+        } 
+
+        return false;
+    }
+
+    const handleRowInput = useCallback((index: number, inputStartTimeH: number, inputStartTimeMin: number): void => { 
+        let startTime = inputStartTimeH*3600 + inputStartTimeMin*60;
+        //if(!checkSlotIntersection(inputStartTimeH, inputStartTimeMin)){ //si pas d'intersection de créneau
+            let copy = timeslots;
+            if(copy[index]){
+                copy[index].startsAt = startTime;
+                setTimeslots(copy);
+            }
+            console.log(copy);
+        //}
+    }, [timeslots]);
 
     return(
         <VStack direction={'column'} align='left'>

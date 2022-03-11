@@ -21,6 +21,7 @@ const TimeslotInputRow: FC<TimeslotInputRowProps> = ({index, workshopDuration, h
     const [startingMin, setStartingMin] = useState<number>(0);
 
     useEffect(() => {
+        //console.log(index);
         handleInput(index, startingHour, startingMin);
     }, [startingHour, startingMin]);
 

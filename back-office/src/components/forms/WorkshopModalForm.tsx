@@ -8,7 +8,6 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    Text,
     HStack,
     VStack
   } from '@chakra-ui/react'
@@ -16,6 +15,7 @@ import {
 import FormInput from './FormInput';
 import WorkshopAdressInput from './WorkshopAdressInput';
 import WorkshopTimeSlotInput from './WorkshopTimeSlotInput';
+import IWorkshopSlot from '../../interfaces/IWorkshopSlot';
 
 interface WorkshopModalFormProps {
     isVisible: boolean,
@@ -23,6 +23,12 @@ interface WorkshopModalFormProps {
 }
 
 const WorkshopModalForm: FC<WorkshopModalFormProps> = ({isVisible, handleClose}: WorkshopModalFormProps) => {
+
+    const handleWorkshopSlots = (slots:IWorkshopSlot[]) => {
+        //console.log("Slots récupérés dans la modale du form");
+        //console.log(slots);
+    }
+
     return(
     <Modal onClose={handleClose} size='full' isOpen={isVisible}>
         <ModalOverlay />
@@ -37,7 +43,7 @@ const WorkshopModalForm: FC<WorkshopModalFormProps> = ({isVisible, handleClose}:
                         <WorkshopAdressInput placeholder="Adresse *"/>
                         <FormInput placeholder="Minimum de participants " associatedField='nbMinParticipants' type='numeric'/>
                     </VStack>
-                    <WorkshopTimeSlotInput placeholder='Crénaux et disponibilités *'/>
+                    <WorkshopTimeSlotInput placeholder='Crénaux et disponibilités *' handleWorkshopTimeslots={handleWorkshopSlots}/>
                 </HStack>
             </ModalBody>
             <ModalFooter>

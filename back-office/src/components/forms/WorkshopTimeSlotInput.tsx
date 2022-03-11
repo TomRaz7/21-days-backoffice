@@ -1,5 +1,5 @@
-import { FC, useEffect, useState } from 'react';
-import { Box, Button, Center, Flex, HStack, NumberInput, NumberInputField, Text, VStack } from '@chakra-ui/react'
+import { FC, useCallback, useEffect, useState } from 'react';
+import { Box, Center, Flex, HStack, NumberInput, NumberInputField, Text, VStack } from '@chakra-ui/react'
 import { Icon } from '@chakra-ui/icons';
 import {  MdCalendarToday } from 'react-icons/md';
 
@@ -9,19 +9,34 @@ import TimeSlotSelectionDropDown from './TimeSlotSelectionDropDown';
 import MinutepickerList from './MinutePickerList';
 
 interface WorkshopTimeSlotInputProps {
+    handleWorkshopTimeslots(workshopSlots: IWorkshopSlot[]): void,
     placeholder: string
 }
 
-const WorkshopTimeSlotInput: FC<WorkshopTimeSlotInputProps> = ({placeholder}: WorkshopTimeSlotInputProps) => {
+const WorkshopTimeSlotInput: FC<WorkshopTimeSlotInputProps> = ({placeholder, handleWorkshopTimeslots}: WorkshopTimeSlotInputProps) => {
 
     const [duration, setDuration] = useState<number>(0);
     const [workshopSlots, setWorkshopSlots] = useState<IWorkshopSlot[]>([]);
     const [minutes, setMinutes] = useState<number>(0);
     const [hours, setHours] = useState<number>(0);
 
-    const handleSelectedDays = (days: IWorkshopSlot[]): void => {
+    const handleSelectedDays = (days: IWorkshopSlot[], ): void => {
         setWorkshopSlots(days.sort((a,b) => {return a.dayIndex - b.dayIndex})); //tri créneaux par ordre croissant
     }
+
+    // const handleTimeslotSelectionDropDown = useCallback(() => {
+    //     console.log('USE CALLBACK HOOK');
+    //     console.log()
+    // }, []);
+
+    useCallback(() => {
+        console.log('USE CALLBACK HOOK')
+        handleWorkshopTimeslots(workshopSlots);
+    }, [workshopSlots])
+
+    useEffect(() => {
+        handleWorkshopTimeslots(workshopSlots);
+    },[workshopSlots]);
 
     useEffect(() => {
         setDuration(hours*3600 + minutes*60);
