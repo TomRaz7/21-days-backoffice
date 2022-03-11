@@ -7,6 +7,7 @@ import DaysSelectionDropdown from './DaysSelectionDropdown';
 import IWorkshopSlot from '../../interfaces/IWorkshopSlot';
 import TimeSlotSelectionDropDown from './TimeSlotSelectionDropDown';
 import MinutepickerList from './MinutePickerList';
+import ITimeSlot from '../../interfaces/ITimeSlot';
 
 interface WorkshopTimeSlotInputProps {
     handleWorkshopTimeslots(workshopSlots: IWorkshopSlot[]): void,
@@ -21,13 +22,15 @@ const WorkshopTimeSlotInput: FC<WorkshopTimeSlotInputProps> = ({placeholder, han
     const [hours, setHours] = useState<number>(0);
 
     const handleSelectedDays = (days: IWorkshopSlot[], ): void => {
-        setWorkshopSlots(days.sort((a,b) => {return a.dayIndex - b.dayIndex})); //tri créneaux par ordre croissant
+        console.log('jours')
+        setWorkshopSlots(days.sort((a,b) => {return a.dayIndex - b.dayIndex})); //tri des propositions de créneaux par jour de la semaine
     }
 
-    // const handleTimeslotSelectionDropDown = useCallback(() => {
-    //     console.log('USE CALLBACK HOOK');
-    //     console.log()
-    // }, []);
+    const handleTimeslotSelectionDropDown = useCallback((timeslots: ITimeSlot[], associatedDay:string):void => {
+        console.log('USE CALLBACK HOOK');
+        console.log('Timeslots du', associatedDay);
+        console.log(timeslots);
+    }, [workshopSlots]);
 
     useCallback(() => {
         console.log('USE CALLBACK HOOK')
@@ -110,7 +113,7 @@ const WorkshopTimeSlotInput: FC<WorkshopTimeSlotInputProps> = ({placeholder, han
             </VStack>
             <DaysSelectionDropdown handleSelectedDays={handleSelectedDays} workshopDuration={duration}/>
             {!!workshopSlots.length && 
-                <TimeSlotSelectionDropDown slots={workshopSlots} workshopDuration={duration}/> 
+                <TimeSlotSelectionDropDown slots={workshopSlots} workshopDuration={duration} handleTimeslot={handleTimeslotSelectionDropDown}/> 
             }
         </Flex>
     );

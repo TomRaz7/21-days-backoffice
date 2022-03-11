@@ -10,17 +10,19 @@ import TimeslotInputRow from './TimeslotInputRow';
 
 interface TimeSlotSelectionDropDownProps {
     workshopDuration: number,
-    slots: IWorkshopSlot[]
+    slots: IWorkshopSlot[],
+    handleTimeslot(slots:ITimeSlot[], associatedDay:string):void //ajouter le jour aussi
 }
 
 const TimeSlotSelectionDropDown: FC<TimeSlotSelectionDropDownProps> = ({
     workshopDuration, 
-    slots}: TimeSlotSelectionDropDownProps) => {
+    slots,
+    handleTimeslot}: TimeSlotSelectionDropDownProps) => {
     return(
         <VStack mt={4} direction={'column'} align='left' justify={'center'} spacing={4}>
             {slots.map((e) => {
                 return(
-                    <DaySlotsBundle day={e.day} nbSlot={e.nbSlot} workshopDuration={workshopDuration}/>
+                    <DaySlotsBundle day={e.day} nbSlot={e.nbSlot} workshopDuration={workshopDuration} handleTimeslot={handleTimeslot}/>
                 )
             })}
         </VStack>
@@ -31,9 +33,10 @@ interface DaySlotsProps {
     day: string,
     nbSlot: number,
     workshopDuration: number,
+    handleTimeslot(slots:ITimeSlot[], associatedDay:string):void
 }
 
-const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySlotsProps) => {
+const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration, handleTimeslot}:DaySlotsProps) => {
 
     const [timeslots, setTimeslots] = useState<ITimeSlot[]>([]);
 
@@ -49,7 +52,13 @@ const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySl
             let copy =  timeslots.map(e => {return {...e, duration: workshopDuration}});
             setTimeslots(copy);
         }
-    }, [workshopDuration])
+    }, [workshopDuration]);
+
+    useEffect(() => {
+        handleTimeslot(timeslots, day);
+    }, [timeslots]);
+
+    //faire un useEffect pour remonter les modifications du tableau timeslots avec dans le parent un useCallback pour gérer le tableau récupéré
 
     const checkSlotIntersection = (inputStartTimeH: number, inputStartTimeMin: number): boolean => {
         console.log(timeslots);
@@ -69,7 +78,6 @@ const DaySlotsBundle: FC<DaySlotsProps> = ({day, nbSlot, workshopDuration}:DaySl
                 copy[index].startsAt = startTime;
                 setTimeslots(copy);
             }
-            console.log(copy);
         //}
     }, [timeslots]);
 
